@@ -13,7 +13,8 @@
         },
         {
             "name": "Yannis - Pastis Glaros",
-            "email": "mrpc@pramnoshosting.gr"
+            "email": "mrpc@pramnoshosting.gr",
+            "homepage": "https://mrpc.pramnos.net"
         }
     ],
     "require": {
