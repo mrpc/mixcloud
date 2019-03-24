@@ -5,7 +5,7 @@ namespace mrpc\Mixcloud\Exception;
 use \Exception;
 
 /**
- * Soundcloud invalid HTTP response code exception.
+ * mixcloud invalid HTTP response code exception.
  *
  * @category Services
  * @package Services_Soundcloud
