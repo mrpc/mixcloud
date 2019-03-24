@@ -2,7 +2,7 @@
     "name": "mrpc/mixcloud",
     "description": "PHP wrapper for the Mixcloud API",
     "version": "1.0.0",
-    "keywords": ["mixcloud"],
+    "keywords": ["mixcloud", "upload", "OAuth"],
     "homepage": "https://github.com/mrpc/mixcloud",
     "type": "library",
     "license": "MIT",
