@@ -1,6 +1,6 @@
 <?php
 
-namespace Beatnode\Mixcloud\Exception;
+namespace mrpc\Mixcloud\Exception;
 
 use \Exception;
 
@@ -10,35 +10,32 @@ use \Exception;
  * @category Services
  * @package Services_Soundcloud
  * @author Anton Lindqvist <anton@qvister.se>
+ * @author Yannis - Pastis Glaros <mrpc@pramnoshosting.gr>
  * @copyright 2010 Anton Lindqvist <anton@qvister.se>
+ * @copyright 2019 Yannis - Pastis Glaros <mrpc@pramnoshosting.gr>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @link http://github.com/mptre/php-soundcloud
+ * @link https://github.com/mrpc/mixcloud
  */
 class InvalidHttpResponseCodeException extends Exception
 {
+
     /**
      * HTTP response body.
-     *
      * @access protected
-     *
      * @var string
      */
     protected $httpBody;
 
     /**
      * HTTP response code.
-     *
      * @access protected
-     *
      * @var integer
      */
     protected $httpCode;
 
     /**
      * Default message.
-     *
      * @access protected
-     *
      * @var string
      */
     protected $message = 'The requested URL responded with HTTP code %d.';
@@ -53,7 +50,8 @@ class InvalidHttpResponseCodeException extends Exception
      *
      * @return void
      */
-    public function __construct($message = null, $code = 0, $httpBody = null, $httpCode = 0)
+    public function __construct($message = null, $code = 0,
+        $httpBody = null, $httpCode = 0)
     {
         $this->httpBody = $httpBody;
         $this->httpCode = $httpCode;

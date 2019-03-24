@@ -1,15 +1,19 @@
 {
-    "name": "beatnode/mixcloud",
+    "name": "mrpc/mixcloud",
     "description": "PHP wrapper for the Mixcloud API",
     "version": "1.0.0",
     "keywords": ["mixcloud"],
-    "homepage": "https://github.com/beatnode/mixcloud",
+    "homepage": "https://github.com/mrpc/mixcloud",
     "type": "library",
-    "license": "MIT", 
+    "license": "MIT",
     "authors": [
         {
             "name": "Stephen Radford",
             "email": "steve228uk@gmail.com"
+        },
+        {
+            "name": "Yannis - Pastis Glaros",
+            "email": "mrpc@pramnoshosting.gr"
         }
     ],
     "require": {
@@ -17,7 +21,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Beatnode\\Mixcloud": "src/"
+            "mrpc\\Mixcloud": "src/"
         }
     },
     "minimum-stability": "dev"
