@@ -162,8 +162,79 @@ class Service
         return $this->get('me/');
     }
 
+
+    /**
+     * Upload a file to soundcloud
+     * @param string $file The audio file to be uploaded.
+     *                     The file should not be larger than 524288000 bytes
+     * @param string $name The track section song title.
+     * @param Section[] $sections Array of Section objects
+     * @param string $description   A description for the upload.
+     *                              Maximum of 1000 characters.
+     * @param string $picture  A picture for the upload.
+     *                         The file should not be larger than 10485760 bytes
+     * @param array $tags
+     * @throws Exception
+     */
+    public function upload($file, $name, $sections, $description = '',
+        $picture = null,
+        $tags = array())
+    {
+        if (!file_exists($file)) {
+            throw new Exception('Invalid file.');
+        }
+
+
+        $post = array();
+        $post["mp3"] = curl_file_create($file);
+        $post["name"] = $name;
+        $post["percentage_music"] = 100;
+        $post["description"] = $description;
+        $cntTg = 0;
+        foreach ($tags as $tag) {
+
+            $post['tags-' . $cntTg . '-tag'] = $tag;
+            $cntTg++;
+        }
+
+
+        $cnt = 0;
+        foreach ($sections as $track) {
+            if ($track->artist) {
+                $post['sections-' . $cnt . '-artist'] = $track->artist;
+            }
+            if ($track->song) {
+                $post['sections-' . $cnt . '-song'] = $track->song;
+            }
+            $post['sections-' . $cnt . '-chapter'] = $track->chapter;
+            $post['sections-' . $cnt . '-time'] = $track->time;
+
+            $cnt++;
+        }
+        $url = $this->url(
+            'upload/',
+            array('access_token' => $this->accessToken)
+        );
+
+
+        return json_decode(
+            $this->request(
+                $url,
+                array(
+                    CURLOPT_POST => 1,
+                    CURLOPT_POSTFIELDS => $post,
+                    CURLOPT_RETURNTRANSFER => true,
+
+                )
+            )
+        );
+
+    }
+
     /**
      * Actually makes the HTTP request with cURL
+     * @param string $url API url to call
+     * @param array $curlOptions cURL options to pass
      * @return Mixed
      */
     private function request($url, array $curlOptions = array())
@@ -202,6 +273,17 @@ class Service
         if ($this->validResponseCode($this->lastHttpResponseCode)) {
             return $this->lastHttpResponseBody;
         } else {
+            if ($this->lastHttpResponseCode == 403
+                && $this->lastHttpResponseBody != '') {
+                $data = json_decode($this->lastHttpResponseBody);
+                if ($data->error->type === 'RateLimitException') {
+                    throw new Exception\RateLimitException(
+                        null, 0, $this->lastHttpResponseBody,
+                        $this->lastHttpResponseCode, $data->error->retry_after
+                    );
+                }
+            }
+
             throw new Exception\InvalidHttpResponseCodeException(
                 null, 0, $this->lastHttpResponseBody,
                 $this->lastHttpResponseCode
